@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Citizen Wallet</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
+    body { background: #f0f2f5; padding: 40px 20px; }
+    .container { max-width: 600px; margin: 0 auto; }
+    h1 { font-size: 22px; color: #1a1a2e; margin-bottom: 6px; }
+    .sub { color: #888; font-size: 14px; margin-bottom: 30px; }
+    .card { background: white; border-radius: 12px; padding: 24px; margin-bottom: 16px; border-left: 4px solid #1D9E75; }
+    .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+    .name { font-size: 18px; font-weight: 700; color: #1a1a2e; }
+    .badge { padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+    .active  { background: #E1F5EE; color: #0F6E56; }
+    .revoked { background: #FAECE7; color: #993C1D; }
+    .row { display: flex; gap: 8px; margin-bottom: 6px; font-size: 13px; }
+    .label { color: #888; min-width: 100px; }
+    .value { color: #333; font-weight: 500; }
+    .mono  { font-family: monospace; font-size: 11px; color: #555; word-break: break-all; }
+    .qr-section { text-align: center; margin-top: 14px; padding-top: 14px; border-top: 1px solid #eee; }
+    .qr-section img { width: 120px; height: 120px; border: 1px solid #ddd; border-radius: 8px; }
+    .qr-label { font-size: 11px; color: #aaa; margin-top: 6px; }
+    .empty { text-align: center; color: #aaa; padding: 40px; font-size: 14px; }
+    a.back { display: inline-block; color: #1D9E75; font-size: 13px; margin-bottom: 20px; text-decoration: none; }
+    .refresh { float: right; background: #1D9E75; color: white; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer; font-size: 13px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="/" class="back">← Back to home</a>
+    <h1>Citizen Wallet</h1>
+    <p class="sub">Your stored digital credentials <button class="refresh" onclick="loadWallet()">Refresh</button></p>
+    <div id="wallet-list"></div>
+  </div>
+
+  <script>
+    async function loadWallet() {
+      const res = await fetch("/api/wallet");
+      const data = await res.json();
+      const el = document.getElementById("wallet-list");
+      if (!data.credentials || data.credentials.length === 0) {
+        el.innerHTML = '<div class="empty">No credentials yet. Issue a license from the DMV portal first.</div>';
+        return;
+      }
+      el.innerHTML = data.credentials.map(c => `
+        <div class="card">
+          <div class="card-header">
+            <span class="name">${c.name}</span>
+            <span class="badge active">ACTIVE</span>
+          </div>
+          <div class="row"><span class="label">DID</span><span class="value mono">${c.did}</span></div>
+          <div class="row"><span class="label">Date of birth</span><span class="value">${c.dob}</span></div>
+          <div class="row"><span class="label">License class</span><span class="value">Class ${c.license_class}</span></div>
+          <div class="row"><span class="label">Issued</span><span class="value">${c.issued_at}</span></div>
+          <div class="row"><span class="label">Issuer</span><span class="value mono">${c.issuer}</span></div>
+          <div class="row"><span class="label">Hash</span><span class="value mono">${c.hash}</span></div>
+          <div class="qr-section">
+            <img src="/api/qr/${c.did}" alt="QR Code"/>
+            <div class="qr-label">Scan to verify — shows DID only (selective disclosure)</div>
+          </div>
+        </div>
+      `).join("");
+    }
+    loadWallet();
+  </script>
+</body>
+</html>

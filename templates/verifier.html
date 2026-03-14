@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Police Verifier</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
+    body { background: #f0f2f5; padding: 40px 20px; }
+    .container { max-width: 500px; margin: 0 auto; }
+    h1 { font-size: 22px; color: #1a1a2e; margin-bottom: 6px; }
+    .sub { color: #888; font-size: 14px; margin-bottom: 30px; }
+    .card { background: white; border-radius: 12px; padding: 28px; }
+    label { display: block; font-size: 13px; font-weight: 600; color: #444; margin-bottom: 6px; }
+    input { width: 100%; padding: 10px 14px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; outline: none; }
+    input:focus { border-color: #D85A30; }
+    .btn { width: 100%; padding: 13px; border: none; border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; margin-top: 18px; background: #D85A30; color: white; transition: opacity .2s; }
+    .btn:hover { opacity: .85; }
+    .result-box { margin-top: 24px; display: none; }
+    .pass { background: #E1F5EE; border: 2px solid #1D9E75; border-radius: 12px; padding: 20px; text-align: center; }
+    .fail { background: #FAECE7; border: 2px solid #D85A30; border-radius: 12px; padding: 20px; text-align: center; }
+    .verdict { font-size: 28px; font-weight: 700; margin-bottom: 10px; }
+    .pass .verdict { color: #0F6E56; }
+    .fail .verdict { color: #993C1D; }
+    .detail-row { display: flex; justify-content: space-between; font-size: 13px; padding: 6px 0; border-bottom: 1px solid rgba(0,0,0,.06); }
+    .detail-row:last-child { border: none; }
+    .dl { color: #888; }
+    .dv { font-weight: 600; color: #333; }
+    a.back { display: inline-block; color: #D85A30; font-size: 13px; margin-bottom: 20px; text-decoration: none; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="/" class="back">← Back to home</a>
+    <h1>Police Verifier</h1>
+    <p class="sub">Instant license verification</p>
+    <div class="card">
+      <label>Enter citizen DID</label>
+      <input id="did-input" placeholder="did:bdl:xxxxxxxx" />
+      <button class="btn" onclick="verifyDID()">Verify License</button>
+      <div id="result-box" class="result-box"></div>
+    </div>
+  </div>
+
+  <script>
+    async function verifyDID() {
+      const did = document.getElementById("did-input").value.trim();
+      if (!did) return;
+      const res = await fetch("/api/verify", {
+        method: "POST",
+        headers: {"Content-Type":"application/json"},
+        body: JSON.stringify({did})
+      });
+      const data = await res.json();
+      const el = document.getElementById("result-box");
+      el.style.display = "block";
+
+      if (!data.success) {
+        el.innerHTML = `<div class="fail"><div class="verdict">FAIL</div><p>${data.error}</p></div>`;
+        return;
+      }
+
+      const r = data.result;
+      if (r.valid) {
+        el.innerHTML = `
+          <div class="pass">
+            <div class="verdict">PASS</div>
+            <div class="detail-row"><span class="dl">DID</span><span class="dv" style="font-size:11px;font-family:monospace">${r.did}</span></div>
+            <div class="detail-row"><span class="dl">License class</span><span class="dv">Class ${r.license_class}</span></div>
+            <div class="detail-row"><span class="dl">Status</span><span class="dv">${r.status}</span></div>
+            <div class="detail-row"><span class="dl">Result</span><span class="dv">${r.reason}</span></div>
+          </div>`;
+      } else {
+        el.innerHTML = `
+          <div class="fail">
+            <div class="verdict">FAIL</div>
+            <div class="detail-row"><span class="dl">DID</span><span class="dv" style="font-size:11px;font-family:monospace">${r.did}</span></div>
+            <div class="detail-row"><span class="dl">Reason</span><span class="dv">${r.reason}</span></div>
+          </div>`;
+      }
+    }
+  </script>
+</body>
+</html>

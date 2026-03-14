@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>BDL System</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
+    body { background: #f0f2f5; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+    .container { text-align: center; padding: 40px; }
+    h1 { font-size: 28px; color: #1a1a2e; margin-bottom: 8px; }
+    p { color: #666; margin-bottom: 40px; font-size: 15px; }
+    .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; max-width: 600px; margin: 0 auto; }
+    .card { background: white; border-radius: 12px; padding: 28px 20px; text-decoration: none; color: inherit; border: 2px solid transparent; transition: all .2s; }
+    .card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,.1); }
+    .card.purple { border-color: #7F77DD; }
+    .card.teal   { border-color: #1D9E75; }
+    .card.coral  { border-color: #D85A30; }
+    .card.amber  { border-color: #BA7517; }
+    .icon { font-size: 32px; margin-bottom: 10px; }
+    .card h2 { font-size: 16px; margin-bottom: 6px; }
+    .card p  { font-size: 13px; color: #888; margin: 0; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>BDL — Blockchain Driver License</h1>
+    <p>PRISM Framework — Decentralized Identity System</p>
+    <div class="grid">
+      <a href="/issuer" class="card purple">
+        <div class="icon">🏛️</div>
+        <h2>DMV Issuer</h2>
+        <p>Issue & revoke licenses</p>
+      </a>
+      <a href="/wallet" class="card teal">
+        <div class="icon">👤</div>
+        <h2>Citizen Wallet</h2>
+        <p>View & present credentials</p>
+      </a>
+      <a href="/verifier" class="card coral">
+        <div class="icon">🚔</div>
+        <h2>Police Verifier</h2>
+        <p>Verify license on the spot</p>
+      </a>
+      <a href="/explorer" class="card amber">
+        <div class="icon">🔗</div>
+        <h2>Ledger Explorer</h2>
+        <p>Live blockchain event log</p>
+      </a>
+    </div>
+  </div>
+</body>
+</html>

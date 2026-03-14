@@ -1,0 +1,32 @@
+{
+  "did:bdl:fb904139": {
+    "did": "did:bdl:fb904139",
+    "name": "Arjun Sharma",
+    "dob": "1995-06-15",
+    "license_class": "B",
+    "issued_at": "2026-03-14",
+    "issuer": "did:bdl:dmv-authority",
+    "hash": "72082d7de35e3c182771fb3ec9baf4f6274ff02a461399e8e7a247111d4262e8",
+    "signature": "ca1e30f36765a826ce1e0a2bc2a84c30240670fbfdfee0dcfce92a892af17136"
+  },
+  "did:bdl:0e71b74b": {
+    "did": "did:bdl:0e71b74b",
+    "name": "Suganya Srinivasan",
+    "dob": "1985-07-06",
+    "license_class": "B",
+    "issued_at": "2026-03-14",
+    "issuer": "did:bdl:dmv-authority",
+    "hash": "311333483769ac41f88ea0ecfa6cc5506d382695662b7426908ad0b4e21e90cb",
+    "signature": "1f8300140d26fbaf2a8cd70b5a390106692f4d48cdea8d615c37d7fde3fe85b8"
+  },
+  "did:bdl:1219b1f5": {
+    "did": "did:bdl:1219b1f5",
+    "name": "suganya srinivasan",
+    "dob": "1985-07-06",
+    "license_class": "B",
+    "issued_at": "2026-03-14",
+    "issuer": "did:bdl:dmv-authority",
+    "hash": "8d537c0d5c480dda33a38d04ca301b88d41c02b9cfb475ab311d3d08d2654eca",
+    "signature": "2fd07b92f97b4130441ddc57d68a542742c8fd9f88940e2bfe9ae33dfb0b6dcc"
+  }
+}
